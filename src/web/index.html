@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoundScope-AI | Acoustic & Lyric Intelligence Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Crimson Red & Obsidian Black Mastering Studio Palette */
+      --spotify-green: #ef4444;
+      --spotify-green-hover: #f87171;
+      --spotify-green-dark: #991b1b;
+      --spotify-green-glow: rgba(239, 68, 68, 0.35);
+      
+      --bg-black: #050507;
+      --bg-base: #0c0c10;
+      --bg-card: #121217;
+      --bg-card-hover: #1a1518;
+      --bg-elevated: #22181c;
+      
+      --text-main: #ffffff;
+      --text-sub: #b8b8c2;
+      --text-muted: #71717a;
+      
+      --border-subtle: rgba(239, 68, 68, 0.14);
+      --border-green: rgba(239, 68, 68, 0.48);
+      --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-black);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 12% 12%, rgba(220, 38, 38, 0.14) 0%, transparent 45%),
+        radial-gradient(circle at 88% 85%, rgba(185, 28, 28, 0.12) 0%, transparent 50%),
+        linear-gradient(180deg, #050507 0%, #0a0608 100%);
+    }
+
+    /* Top Sticky Navigation */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 2.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+      background: rgba(10, 8, 10, 0.92);
+      backdrop-filter: blur(20px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 28px rgba(220, 38, 38, 0.08);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--spotify-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px var(--spotify-green-glow);
+    }
+
+    .brand-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: #000;
+    }
+
+    .brand-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
+
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      background: rgba(239, 68, 68, 0.14);
+      border: 1px solid rgba(239, 68, 68, 0.38);
+      color: #f87171;
+      font-weight: 600;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--spotify-green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.3); }
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .track-select-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+      padding: 0.65rem 1rem;
+      border-radius: 9999px;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .track-select-box:hover, .track-select-box:focus {
+      border-color: var(--spotify-green);
+      background: var(--bg-elevated);
+    }
+
+    .btn {
+      padding: 0.65rem 1.4rem;
+      border-radius: 9999px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      border: none;
+      font-family: inherit;
+    }
+
+    .btn-spotify {
+      background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 18px var(--spotify-green-glow);
+    }
+
+    .btn-spotify:hover {
+      background: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
+      transform: scale(1.04);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .btn-outline:hover {
+      background: var(--bg-card);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1400px;
+      margin: 1.75rem auto 3rem;
+      padding: 0 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    /* Studio Dual-Branch Panel */
+    .studio-panel {
+      background: var(--bg-base);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 1.75rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+    }
+
+    @media (max-width: 900px) {
+      .studio-panel { grid-template-columns: 1fr; }
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .panel-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+    }
+
+    .track-info-tag {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Waveform Box */
+    .waveform-box {
+      background: #000000;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      height: 120px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    canvas#waveformCanvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .playback-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1rem;
+      gap: 1rem;
+    }
+
+    .btn-play-pill {
+      background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+      color: #ffffff;
+      padding: 0.6rem 1.4rem;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
+    }
+
+    .btn-play-pill:hover {
+      background: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
+      transform: scale(1.04);
+    }
+
+    /* Lyric Input Area */
+    .lyric-box textarea {
+      width: 100%;
+      height: 120px;
+      background: #000000;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      color: #fff;
+      padding: 0.85rem;
+      font-family: var(--font-family);
+      font-size: 0.88rem;
+      resize: none;
+      line-height: 1.55;
+      transition: border-color 0.2s;
+    }
+
+    .lyric-box textarea:focus {
+      outline: none;
+      border-color: var(--spotify-green);
+    }
+
+    /* Equalizer Spectrum Bars */
+    .spectrum-grid {
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+      height: 70px;
+      margin-top: 1rem;
+      padding: 8px 10px 0;
+      background: #000000;
+      border-radius: 8px;
+    }
+
+    .spec-bar {
+      flex: 1;
+      background: linear-gradient(180deg, #ff2a4b, #6b0f1a);
+      border-radius: 3px 3px 0 0;
+      transition: height 0.3s ease;
+      min-height: 4px;
+    }
+
+    /* Key Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.25rem;
+      transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-2px);
+      background-color: var(--bg-card-hover);
+      border-color: var(--border-green);
+    }
+
+    .metric-label {
+      font-size: 0.78rem;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .metric-value {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .metric-sub {
+      font-size: 0.78rem;
+      color: var(--spotify-green);
+      margin-top: 0.25rem;
+      font-weight: 600;
+    }
+
+    /* Multi-Agent Critique Panel */
+    .critique-section {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 1000px) {
+      .critique-section { grid-template-columns: 1fr; }
+    }
+
+    .score-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 2.25rem 1.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .score-ring {
+      width: 135px;
+      height: 135px;
+      border-radius: 50%;
+      border: 6px solid #26171a;
+      border-top-color: #ef4444;
+      border-right-color: #dc2626;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      box-shadow: 0 0 32px var(--spotify-green-glow);
+    }
+
+    .score-number {
+      font-size: 2.75rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .score-max {
+      font-size: 0.75rem;
+      color: var(--text-sub);
+    }
+
+    .guardrail-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: 9999px;
+      background: rgba(239, 68, 68, 0.14);
+      border: 1px solid rgba(239, 68, 68, 0.38);
+      color: #f87171;
+      font-weight: 600;
+    }
+
+    /* Agent Commentary Cards */
+    .agents-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .agent-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 1.5rem;
+      transition: background-color 0.2s;
+    }
+
+    .agent-card:hover {
+      background: var(--bg-card-hover);
+    }
+
+    .agent-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
+    .agent-name {
+      font-size: 0.98rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+    }
+
+    .agent-tag-badge {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(239, 68, 68, 0.16);
+      border: 1px solid rgba(239, 68, 68, 0.32);
+      color: #f87171;
+      font-weight: 600;
+    }
+
+    .agent-body {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #d1d5db;
+    }
+
+    .recs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+
+    .rec-item {
+      background: #0f0f0f;
+      border-left: 3px solid var(--spotify-green);
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      color: #e5e7eb;
+    }
+
+    /* Loading Overlay */
+    #loadingOverlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 8, 8, 0.85);
+      backdrop-filter: blur(14px);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .spinner {
+      width: 46px;
+      height: 46px;
+      border: 4px solid #282828;
+      border-top-color: var(--spotify-green);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation (Spotify Color & Theme) -->
+  <header>
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424c-.18.295-.563.387-.857.207-2.35-1.435-5.308-1.76-8.792-.963-.335.077-.67-.133-.746-.468-.077-.334.132-.67.467-.746 3.809-.87 7.076-.496 9.721 1.115.294.18.386.562.207.855zm1.224-2.724c-.226.367-.708.482-1.075.257-2.69-1.654-6.79-2.133-9.97-1.168-.413.125-.849-.11-.975-.523-.125-.413.11-.849.523-.975 3.633-1.102 8.147-.568 11.24 1.334.367.226.482.708.257 1.075zm.105-2.835C14.692 8.8 9.38 8.625 6.297 9.56c-.495.15-1.02-.132-1.17-.627-.15-.495.132-1.02.627-1.17 3.543-1.075 9.426-.867 13.187 1.365.446.265.592.843.328 1.289-.265.446-.843.592-1.289.328z"/></svg>
+      </div>
+      <div>
+        <div class="brand-title">SoundScope-AI</div>
+      </div>
+      <div class="badge-status">
+        <span class="badge-dot"></span> DSP & Multi-Agent Engine Active
+      </div>
+    </div>
+    
+    <div class="header-actions">
+      <!-- Multi-Genre Track Dropdown -->
+      <label style="font-size: 0.82rem; color: var(--text-sub); font-weight: 600;">Genre Track:</label>
+      <select id="trackSelector" class="track-select-box" onchange="switchTrack(this.value)">
+        <option value="synthwave_neon">⚡ Neon Horizons (Synthwave / Electronic)</option>
+        <option value="drum_and_bass_electronic">🥁 Choice (Drum & Bass / 170 BPM)</option>
+        <option value="acoustic_folk_country">🎸 Let's Go Fishin' (Acoustic Folk)</option>
+        <option value="classical_orchestral">🎻 Hungarian Dance No. 5 (Classical)</option>
+        <option value="jazz_solo_trumpet">🎺 Late Night Jazz Horn (Solo Brass)</option>
+        <option value="dance_sugar_plum">❄️ Sugar Plum Fantasy (Fantasy Orchestral)</option>
+      </select>
+
+      <label class="btn btn-spotify" style="cursor: pointer;">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>
+        Upload Track
+        <input type="file" id="audioFileInput" accept=".mp3,.wav,.flac" style="display: none;" onchange="handleAudioUpload(event)">
+      </label>
+    </div>
+  </header>
+
+  <main>
+    <!-- Studio Dual-Branch Ingestion Panel -->
+    <section class="studio-panel">
+      <!-- Left: Audio DSP Engine -->
+      <div>
+        <div class="panel-header">
+          <div class="panel-title">
+            <svg width="18" height="18" fill="var(--spotify-green)" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+            Acoustic Signal Processing (DSP)
+          </div>
+          <span id="trackNameTag" class="track-info-tag">Neon Horizons (123 BPM)</span>
+        </div>
+
+        <div class="waveform-box">
+          <canvas id="waveformCanvas"></canvas>
+        </div>
+
+        <div class="playback-controls">
+          <button id="btnPlayPause" class="btn-play-pill" onclick="togglePlayPause()">
+            <span id="playIcon">▶ Play Audio</span>
+          </button>
+          <div style="font-size: 0.85rem; color: var(--text-sub); font-family: 'JetBrains Mono', monospace;" id="timeDisplay">0:00 / 0:15</div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 0.8rem; color: var(--text-sub);">Volume</span>
+            <input type="range" id="volSlider" min="0" max="1" step="0.05" value="0.8" style="width: 80px; accent-color: var(--spotify-green);" oninput="setVolume(this.value)">
+          </div>
+        </div>
+
+        <!-- 20-Band Mel-Frequency Spectrum -->
+        <div style="margin-top: 1.25rem;">
+          <div class="metric-label">20-Band Mel-Frequency Spectral Moments</div>
+          <div class="spectrum-grid" id="spectrumGrid">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Lyric & NLP Engine -->
+      <div>
+        <div class="panel-header">
+          <div class="panel-title">
+            <svg width="18" height="18" fill="var(--spotify-green)" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+            Lyric & Poetic Intelligence (NLP)
+          </div>
+          <button class="btn btn-outline" style="padding: 0.35rem 0.9rem; font-size: 0.78rem;" onclick="analyzeLyricsInput()">
+            Re-Analyze Lyrics
+          </button>
+        </div>
+
+        <div class="lyric-box">
+          <textarea id="lyricInput" placeholder="Enter lyrics here to extract rhyme density, sentiment trajectories, and thematic topic..."></textarea>
+        </div>
+
+        <!-- Lyric Summary Cards -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 1rem;">
+          <div class="metric-card" style="padding: 0.85rem;">
+            <div class="metric-label">Primary Theme</div>
+            <div id="themeDisplay" style="font-size: 1.05rem; font-weight: 700; color: #fff;">Romance / Introspection</div>
+          </div>
+          <div class="metric-card" style="padding: 0.85rem;">
+            <div class="metric-label">Rhyme Density</div>
+            <div id="rhymeDisplay" style="font-size: 1.05rem; font-weight: 700; color: var(--spotify-green);">62.5%</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Metrics Dashboard -->
+    <section class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Detected Tempo</div>
+        <div class="metric-value" id="tempoVal">123.0</div>
+        <div class="metric-sub">BPM (Rhythmic Grid)</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">Spectral Centroid</div>
+        <div class="metric-value" id="centroidVal">2,140</div>
+        <div class="metric-sub">Hz (Brightness)</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">Dynamic Range</div>
+        <div class="metric-value" id="dynRangeVal">28.4</div>
+        <div class="metric-sub">dB (Crest Factor)</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">Harmonic Ratio</div>
+        <div class="metric-value" id="harmonicVal">0.68</div>
+        <div class="metric-sub">Harmonic vs Percussive</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">Emotional Valence</div>
+        <div class="metric-value" id="valenceVal">+0.42</div>
+        <div class="metric-sub">Positivity Arc (-1 to +1)</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-label">Vocabulary Diversity</div>
+        <div class="metric-value" id="vocabVal">0.65</div>
+        <div class="metric-sub">Type-Token Ratio</div>
+      </div>
+    </section>
+
+    <!-- Orchestrated Multi-Agent Critique Panel -->
+    <section class="critique-section">
+      <!-- Left: Studio Production Score -->
+      <div class="score-card">
+        <div class="score-ring">
+          <div class="score-number" id="overallScore">88</div>
+          <div class="score-max">/ 100</div>
+        </div>
+        <div>
+          <div style="font-size: 1.15rem; font-weight: 800; color: #fff;">SoundScope Score</div>
+          <div style="font-size: 0.8rem; color: var(--text-sub); margin-top: 0.2rem;">Multimodal Production Rating</div>
+        </div>
+        <div class="guardrail-badge" id="guardrailStatus">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+          DSP Grounding Verified
+        </div>
+      </div>
+
+      <!-- Right: Specialized Multi-Agent Reports -->
+      <div class="agents-panel">
+        <!-- Agent 1: Signal Analyst -->
+        <div class="agent-card">
+          <div class="agent-header">
+            <div class="agent-name">
+              <svg width="16" height="16" fill="var(--spotify-green)" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+              Acoustic Signal Analyst Agent
+            </div>
+            <span class="agent-tag-badge">Librosa DSP</span>
+          </div>
+          <div class="agent-body" id="signalCritique">
+            Loading acoustic signal critique...
+          </div>
+        </div>
+
+        <!-- Agent 2: Lyric Semantic Agent -->
+        <div class="agent-card">
+          <div class="agent-header">
+            <div class="agent-name">
+              <svg width="16" height="16" fill="var(--spotify-green)" viewBox="0 0 24 24"><path d="M21 6h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1zm-4 6V3c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v14l4-4h10c.55 0 1-.45 1-1z"/></svg>
+              Lyric & Semantic Agent
+            </div>
+            <span class="agent-tag-badge">NLP Engine</span>
+          </div>
+          <div class="agent-body" id="lyricCritique">
+            Loading lyrical and emotional alignment...
+          </div>
+        </div>
+
+        <!-- Agent 3: Mastering Critic -->
+        <div class="agent-card">
+          <div class="agent-header">
+            <div class="agent-name">
+              <svg width="16" height="16" fill="var(--spotify-green)" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+              Mastering Critic & Recommender Agent
+            </div>
+            <span class="agent-tag-badge">LoRA Music LLM</span>
+          </div>
+          <div class="recs-list" id="recsList">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Loading Modal -->
+  <div id="loadingOverlay">
+    <div class="spinner"></div>
+    <div style="font-size: 0.95rem; font-weight: 600; color: #fff;">Processing with SoundScope Engine...</div>
+  </div>
+
+  <audio id="audioEl" style="display: none;"></audio>
+
+  <script>
+    let currentAudioMetrics = null;
+    let currentLyricMetrics = null;
+    let audioContext = null;
+    let audioBuffer = null;
+    let isPlaying = false;
+
+    const audioEl = document.getElementById("audioEl");
+    const canvas = document.getElementById("waveformCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+      if (canvas && canvas.parentElement) {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+        if (audioBuffer) drawStaticWaveform();
+      }
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    // Init 20 Spectrum Bars
+    const spectrumGrid = document.getElementById("spectrumGrid");
+    for (let i = 0; i < 20; i++) {
+      const bar = document.createElement("div");
+      bar.className = "spec-bar";
+      bar.id = "specBar_" + i;
+      bar.style.height = (18 + Math.random() * 42) + "px";
+      spectrumGrid.appendChild(bar);
+    }
+
+    async function switchTrack(trackId) {
+      if (isPlaying) {
+        audioEl.pause();
+        isPlaying = false;
+        document.getElementById("playIcon").innerText = "▶ Play Audio";
+      }
+
+      showLoading(true);
+      try {
+        const res = await fetch("/api/tracks/" + trackId + "/data");
+        const data = await res.json();
+
+        currentAudioMetrics = data.audio_metrics;
+        currentLyricMetrics = data.lyric_metrics;
+
+        document.getElementById("trackNameTag").innerText = data.track_title + " (" + data.artist_name + ") • " + data.genre;
+        document.getElementById("lyricInput").value = data.sample_lyrics;
+
+        updateDashboard(data.audio_metrics, data.lyric_metrics, data.critique);
+
+        // Fetch audio stream
+        const audioRes = await fetch("/api/tracks/" + trackId + "/audio");
+        const blob = await audioRes.blob();
+        audioEl.src = URL.createObjectURL(blob);
+        loadAudioWaveform(blob);
+
+      } catch (err) {
+        console.error("Track switch failed:", err);
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    async function handleAudioUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      if (isPlaying) {
+        audioEl.pause();
+        isPlaying = false;
+        document.getElementById("playIcon").innerText = "▶ Play Audio";
+      }
+
+      showLoading(true);
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const res = await fetch("/api/analyze-audio", {
+          method: "POST",
+          body: formData
+        });
+        const data = await res.json();
+
+        currentAudioMetrics = data.metrics;
+        document.getElementById("trackNameTag").innerText = file.name + " (Custom Upload)";
+        audioEl.src = URL.createObjectURL(file);
+        loadAudioWaveform(file);
+
+        await recomputeCritique();
+      } catch (err) {
+        alert("Audio analysis failed: " + err);
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    async function analyzeLyricsInput() {
+      const text = document.getElementById("lyricInput").value;
+      if (!text.trim()) return;
+
+      showLoading(true);
+      try {
+        const res = await fetch("/api/analyze-lyrics", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ lyrics: text, track_title: document.getElementById("trackNameTag").innerText })
+        });
+        const data = await res.json();
+        currentLyricMetrics = data.metrics;
+        await recomputeCritique();
+      } catch (err) {
+        alert("Lyric analysis error: " + err);
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    async function recomputeCritique() {
+      if (!currentAudioMetrics || !currentLyricMetrics) return;
+
+      const res = await fetch("/api/critique", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          audio_metrics: currentAudioMetrics,
+          lyric_metrics: currentLyricMetrics,
+          track_title: document.getElementById("trackNameTag").innerText
+        })
+      });
+      const critique = await res.json();
+      updateDashboard(currentAudioMetrics, currentLyricMetrics, critique);
+    }
+
+    function updateDashboard(am, lm, state) {
+      // Metrics
+      document.getElementById("tempoVal").innerText = am.tempo_bpm;
+      document.getElementById("centroidVal").innerText = Math.round(am.spectral_centroid_mean);
+      document.getElementById("dynRangeVal").innerText = am.dynamic_range_db;
+      document.getElementById("harmonicVal").innerText = am.harmonic_ratio;
+      document.getElementById("valenceVal").innerText = (lm.valence_score > 0 ? "+" : "") + lm.valence_score;
+      document.getElementById("vocabVal").innerText = lm.type_token_ratio;
+
+      document.getElementById("themeDisplay").innerText = lm.primary_theme;
+      document.getElementById("rhymeDisplay").innerText = Math.round(lm.rhyme_density_score * 100) + "%";
+
+      // Score
+      document.getElementById("overallScore").innerText = Math.round(state.overall_score || 85);
+
+      // Critiques
+      renderMarkdown("signalCritique", state.signal_critique);
+      renderMarkdown("lyricCritique", state.lyric_critique);
+
+      // Recommendations
+      const recsList = document.getElementById("recsList");
+      recsList.innerHTML = "";
+      (state.mastering_recommendations || []).forEach(r => {
+        const item = document.createElement("div");
+        item.className = "rec-item";
+        item.innerText = r;
+        recsList.appendChild(item);
+      });
+
+      // Update Spectrum bars from MFCCs
+      if (am.mfcc_means) {
+        am.mfcc_means.forEach((val, idx) => {
+          const bar = document.getElementById("specBar_" + idx);
+          if (bar) {
+            const h = Math.max(6, Math.min(68, Math.abs(val) * 1.8));
+            bar.style.height = h + "px";
+          }
+        });
+      }
+    }
+
+    function renderMarkdown(elementId, text) {
+      if (!text) return;
+      const html = text
+        .replace(/\*\*(.*?)\*\*/g, '<strong style="color: #ffffff;">$1</strong>')
+        .split('\n')
+        .map(line => `<div style="margin-bottom: 0.35rem;">${line}</div>`)
+        .join('');
+      document.getElementById(elementId).innerHTML = html;
+    }
+
+    async function loadAudioWaveform(fileOrBlob) {
+      const arrayBuffer = await fileOrBlob.arrayBuffer();
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+      drawStaticWaveform();
+    }
+
+    function drawStaticWaveform() {
+      if (!audioBuffer) return;
+      const rawData = audioBuffer.getChannelData(0);
+      const samples = 140;
+      const blockSize = Math.floor(rawData.length / samples);
+      const filteredData = [];
+      for (let i = 0; i < samples; i++) {
+        let blockStart = blockSize * i;
+        let sum = 0;
+        for (let j = 0; j < blockSize; j++) {
+          sum += Math.abs(rawData[blockStart + j]);
+        }
+        filteredData.push(sum / blockSize);
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const width = canvas.width;
+      const height = canvas.height;
+      const barWidth = width / samples;
+
+      for (let i = 0; i < samples; i++) {
+        const barHeight = filteredData[i] * height * 2.2;
+        const x = i * barWidth;
+        const y = (height - barHeight) / 2;
+
+        const grad = ctx.createLinearGradient(0, y, 0, y + barHeight);
+        grad.addColorStop(0, "#ff2a4b");
+        grad.addColorStop(0.5, "#ef4444");
+        grad.addColorStop(1, "#6b0f1a");
+
+        ctx.fillStyle = grad;
+        ctx.fillRect(x, y, barWidth - 1, barHeight);
+      }
+    }
+
+    function togglePlayPause() {
+      if (!audioEl.src) {
+        switchTrack("synthwave_neon");
+        return;
+      }
+      if (isPlaying) {
+        audioEl.pause();
+        isPlaying = false;
+        document.getElementById("playIcon").innerText = "▶ Play Audio";
+      } else {
+        audioEl.play();
+        isPlaying = true;
+        document.getElementById("playIcon").innerText = "⏸ Pause Audio";
+      }
+    }
+
+    audioEl.ontimeupdate = () => {
+      const cur = Math.floor(audioEl.currentTime || 0);
+      const dur = Math.floor(audioEl.duration || 15);
+      document.getElementById("timeDisplay").innerText = 
+        `0:${cur < 10 ? '0' : ''}${cur} / 0:${dur < 10 ? '0' : ''}${dur}`;
+    };
+
+    audioEl.onended = () => {
+      isPlaying = false;
+      document.getElementById("playIcon").innerText = "▶ Play Audio";
+    };
+
+    function setVolume(val) {
+      audioEl.volume = parseFloat(val);
+    }
+
+    function showLoading(show) {
+      document.getElementById("loadingOverlay").style.display = show ? "flex" : "none";
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      switchTrack("synthwave_neon");
+    });
+  </script>
+</body>
+</html>

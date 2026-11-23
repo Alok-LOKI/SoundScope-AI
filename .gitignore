@@ -1,0 +1,70 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+venv/
+env/
+ENV/
+.venv/
+
+# Audio Data & Large Models (keep samples lightweight)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+*.wav
+*.mp3
+*.flac
+*.pt
+*.bin
+*.safetensors
+*.onnx
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Environment variables & secrets
+.env
+.env.local
+.env.*
+*.pem
+*.key
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS & Office Temporary Lock Files
+.DS_Store
+Thumbs.db
+~$*
+
+# Keep the 5 lightweight open-license demo WAV samples needed for tests/UI, ignore commercial M4A previews & course lecture PDFs
+!data/samples/*.wav
+*.m4a
+DSc - Capstone Lecture 1.pdf

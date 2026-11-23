@@ -1,0 +1,288 @@
+# SoundScope-AI: LaTeX Code for Overleaf
+
+> [!TIP]
+> **How to use this in Overleaf:**
+> 1. Go to [Overleaf.com](https://www.overleaf.com) and create a **New Project -> Blank Project**.
+> 2. Open `main.tex`, delete any default text, and paste the LaTeX code below (`Ctrl + A` then `Ctrl + V`).
+> 3. Click **Recompile** (Ctrl + Enter) to generate your academic PDF!
+> 4. *(Optional)* Upload `screenshots/03_soundscope_architecture_diagram.png` and `screenshots/01_soundscope_dashboard_hero.png` into your Overleaf project to render the embedded figures.
+
+---
+
+```latex
+\documentclass[11pt,a4paper]{article}
+
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{amsmath,amssymb}
+\usepackage{microtype}
+
+% --- Theme Colors ---
+\definecolor{primary}{RGB}{16, 75, 140}     % Deep Academic Navy
+\definecolor{secondary}{RGB}{45, 55, 72}    % Dark Slate
+\definecolor{accent}{RGB}{30, 215, 96}      % Spotify / Audio Green
+\definecolor{tableheader}{RGB}{235, 243, 250}
+\definecolor{mutedgray}{RGB}{100, 100, 100}
+
+% --- Hyperlink Setup ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primary,
+    filecolor=primary,      
+    urlcolor=primary,
+    pdftitle={SoundScope-AI Project Proposal},
+    pdfauthor={Alok Sali, Apoorv Pillai}
+}
+
+% --- Typography & Section Styling ---
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{primary}}{\thesection}{1em}{}[\titlerule]
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{secondary}}{\thesubsection}{1em}{}
+
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries\color{secondary}}{\thesubsubsection}{1em}{}
+
+% --- Header & Footer ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{mutedgray}SoundScope-AI — Capstone Proposal}
+\fancyhead[R]{\small\color{mutedgray}Winter 2026/2027}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% --- Custom Environment ---
+\setlist[itemize]{noitemsep, topsep=2pt, leftmargin=1.5em}
+\setlist[enumerate]{noitemsep, topsep=2pt, leftmargin=1.5em}
+
+\begin{document}
+
+% ==============================================================================
+% TITLE & METADATA
+% ==============================================================================
+\begin{center}
+    {\Huge\bfseries\color{primary} SoundScope-AI}\\[0.3em]
+    {\Large\bfseries Multi-Agent Acoustic \& Lyric Intelligence Platform}\\[0.6em]
+    {\large\color{secondary} Capstone Project Proposal (DSC03) — Winter 2026/2027}\\[0.4em]
+    {\normalsize\textbf{University of Europe for Applied Sciences (UE)}, Germany}\\[0.2em]
+    {\normalsize\textit{Degree:} Master of Science in Data Science (M.Sc. Data Science)}\\[0.2em]
+    {\normalsize\textit{Supervisor:} Dr. Humera Noor Minhas}\\[0.3em]
+    {\small\textbf{Live LinkedIn Post:} \href{https://lnkd.in/p/dK-aYDwb}{\texttt{https://lnkd.in/p/dK-aYDwb}} (Milestone 2 Deliverable)}\\[0.8em]
+    
+    \begin{tabular}{cc}
+        \textbf{Alok Sali} & \textbf{Apoorv Pillai} \\
+        Matriculation No: 46854973 & Matriculation No: 85099328 \\
+        \href{mailto:alok.sali@ue-germany.de}{\small alok.sali@ue-germany.de} & \href{mailto:apoorv.pillai@ue-germany.de}{\small apoorv.pillai@ue-germany.de}
+    \end{tabular}
+\end{center}
+
+\vspace{0.5em}
+\hrule height 1pt
+\vspace{1.2em}
+
+% ==============================================================================
+% 1. PROJECT OVERVIEW & CURRICULUM MAPPING
+% ==============================================================================
+\section{Project Overview \& Lecture Track Alignment}
+
+\textbf{SoundScope-AI} is a multimodal audio intelligence platform that unites continuous Digital Signal Processing (DSP), Natural Language Processing (NLP), and multi-agent orchestration (LangGraph) to evaluate audio mix balance, tempo, frequency spectrum, genre, emotional trajectory, and lyrical poetry.
+
+The project directly satisfies and integrates all major Capstone Lecture curriculum tracks:
+\begin{itemize}
+    \item \textbf{Agent Pipelines:} Orchestrated multi-agent workflow powered by \texttt{LangGraph}, coordinating specialized domain agents with state reflection and verification guardrails.
+    \item \textbf{LLM Fine-Tuning:} Parameter-Efficient Fine-Tuning (4-bit QLoRA) on open-weight LLMs (\texttt{Qwen2.5-Coder} / \texttt{Llama-3-8B}) specialized in audio engineering and music production critique.
+    \item \textbf{Natural Language Processing (NLP):} Speech-to-text lyric transcription via OpenAI Whisper, emotional valence-arousal trajectory modeling, rhyme density quantification, and thematic clustering (BERTopic).
+    \item \textbf{Data Science \& ML:} High-dimensional acoustic feature extraction (20-band MFCCs, spectral moments, HPSS), manifold learning (PCA, UMAP), and multi-class genre/mood classification (XGBoost vs. 2D Mel-CNN).
+    \item \textbf{Software Development \& API:} Asynchronous FastAPI microservices architecture with background audio queue workers and RESTful endpoints.
+    \item \textbf{Fullstack Application:} Interactive web studio interface featuring real-time audio playback, dynamic waveforms, radar charts, and explainable multi-agent review cards.
+\end{itemize}
+
+% ==============================================================================
+% 2. PROBLEM STATEMENT & MOTIVATION
+% ==============================================================================
+\section{Problem Statement \& Motivation}
+
+Music is an inherently multimodal medium combining acoustic signal physics (timbre, rhythm, frequency distribution, dynamics) and textual poetry (lyrics, narrative progression, sentiment arcs). However, existing music technology tools operate in disconnected silos:
+\begin{enumerate}
+    \item \textbf{Isolated Signal Analytics:} DSP and Music Information Retrieval (MIR) tools output raw mathematical numbers (e.g., Spectral Centroid = 2,400~Hz) with zero contextual, creative interpretation for creators.
+    \item \textbf{Superficial Lyric Processing:} Streaming recommendation platforms rely on sparse metadata tags or black-box collaborative filtering logs, ignoring linguistic metaphors, sentiment trajectories, and vocabulary richness.
+    \item \textbf{Black-Box Cold-Start Problem:} Independent musicians and producers rarely receive explainable feedback on why a mix fails or which concrete technical adjustments (compression ratio, EQ balance, narrative pacing) would elevate their production.
+\end{enumerate}
+
+\textbf{SoundScope-AI} bridges this gap by coupling signal physics with semantic intelligence, generating explainable studio-grade production and mastering reviews backed by deterministic guardrails.
+
+% ==============================================================================
+% 3. SYSTEM ARCHITECTURE
+% ==============================================================================
+\section{System Architecture}
+
+The system processes continuous time-series audio signals and discrete lyrical text through a dual-branch processing paradigm:
+
+\begin{figure}[htbp]
+    \centering
+    % If you upload 03_soundscope_architecture_diagram.png to Overleaf, uncomment:
+    % \includegraphics[width=0.95\textwidth]{03_soundscope_architecture_diagram.png}
+    \fbox{\parbox{0.9\textwidth}{\centering\vspace{1.5em}
+    \textbf{[System Architecture Flow]}\\[0.5em]
+    \texttt{User Audio Stream (MP3/WAV)} $\rightarrow$ \texttt{Dual-Branch Engine (DSP + Lyric NLP)}\\
+    $\rightarrow$ \texttt{LangGraph Multi-Agent Orchestrator (Signal, Lyric, LoRA Critic, Guardrail)}\\
+    $\rightarrow$ \texttt{FastAPI REST Backend} $\rightarrow$ \texttt{Interactive Web Studio Dashboard}
+    \vspace{1.5em}}}
+    \caption{SoundScope-AI Multimodal Architecture and Multi-Agent Orchestration Flow.}
+    \label{fig:architecture}
+\end{figure}
+
+The five core architectural layers comprise:
+\begin{enumerate}
+    \item \textbf{Client Dashboard:} Interactive frontend featuring real-time waveform visualization, 20-band mel spectrum bars, and acoustic radar cards.
+    \item \textbf{API Ingestion Service:} Asynchronous FastAPI microservices managing audio decoding, chunking, and task dispatching.
+    \item \textbf{Dual-Branch DSP \& NLP Engine:} Simultaneous extraction of acoustic physics (\texttt{librosa}, \texttt{essentia}) and lyrical poetry (Whisper, RoBERTa, BERTopic).
+    \item \textbf{LangGraph Multi-Agent Pipeline:} Coordinated autonomous agents delivering domain-specific evaluations and explainable recommendations.
+    \item \textbf{Vector \& Persistence Storage:} \texttt{ChromaDB} / \texttt{Qdrant} for high-dimensional track embeddings and PostgreSQL for session telemetry.
+\end{enumerate}
+
+% ==============================================================================
+% 4. MULTI-AGENT PIPELINE & LLM FINE-TUNING
+% ==============================================================================
+\section{Multi-Agent Pipeline \& LLM Fine-Tuning}
+
+\subsection{Specialized Domain Agents (LangGraph)}
+\begin{itemize}
+    \item \textbf{Acoustic Signal Analyst Agent:} Translates mathematical DSP metrics (spectral centroid, rolloff, dynamic range dB, crest factor, harmonic-percussive ratio) into actionable acoustic engineering terms.
+    \item \textbf{Lyric \& NLP Semantic Agent:} Evaluates narrative progression, rhyme density score, vocabulary diversity (Type-Token Ratio), and emotional dissonance against musical tempo.
+    \item \textbf{Mastering Critic Agent (Fine-Tuned LLM):} Synthesizes acoustic and lyrical insights into professional studio recommendations covering EQ cuts, stereo width, dynamic range compression, and arrangement.
+    \item \textbf{Verification \& Fact-Check Guard Agent:} A deterministic verification layer that cross-checks LLM suggestions against measured DSP physics to eliminate hallucinations.
+\end{itemize}
+
+\subsection{LLM Fine-Tuning Specification}
+\begin{itemize}
+    \item \textbf{Base Architecture:} \texttt{Qwen2.5-Coder} / \texttt{Llama-3-8B-Instruct}.
+    \item \textbf{Optimization Method:} 4-bit Quantized Low-Rank Adaptation (QLoRA) with rank $r = 16$, $\alpha = 32$, targeting query, key, value, and projection projection layers via \texttt{Unsloth} and \texttt{BitsAndBytes}.
+    \item \textbf{Curated Corpus:} Paired datasets of professional audio engineering mastering reviews, musicological commentary, and verified acoustic feedback.
+\end{itemize}
+
+% ==============================================================================
+% 5. TECHNICAL STACK
+% ==============================================================================
+\section{Technical Stack}
+
+\begin{table}[htbp]
+\centering
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{p{4.0cm} X}
+\toprule
+\rowcolor{tableheader}
+\textbf{Domain} & \textbf{Technologies \& Frameworks} \\
+\midrule
+\textbf{Agent Orchestration} & LangGraph, LangChain Core, Pydantic \\
+\textbf{LLM Fine-Tuning} & Unsloth, PEFT, Hugging Face Transformers, BitsAndBytes \\
+\textbf{NLP \& Transcription} & OpenAI Whisper, NLTK, Spacy, BERTopic, RoBERTa Sentiment \\
+\textbf{Audio DSP \& ML} & Librosa, Essentia, SciPy, Scikit-learn, XGBoost, PyTorch (2D-CNN) \\
+\textbf{Manifold Learning} & UMAP, t-SNE, PCA \\
+\textbf{Backend \& APIs} & FastAPI, Uvicorn, Celery, Redis \\
+\textbf{Frontend Studio} & React / Vite, HTML5 Canvas, Wavesurfer.js, CSS Glassmorphism \\
+\textbf{Databases} & PostgreSQL (Metadata/logs), Qdrant / ChromaDB (Acoustic embeddings) \\
+\bottomrule
+\end{tabularx}
+\caption{Comprehensive Technical Frameworks and System Stack.}
+\label{tab:techstack}
+\end{table}
+
+% ==============================================================================
+% 6. SPRINT TIMELINE & DIVISION OF RESPONSIBILITIES
+% ==============================================================================
+\section{Detailed Sprint Breakdown \& Division of Responsibilities}
+
+The project is structured across seven bi-weekly sprints during the Winter 2026/2027 semester:
+
+\begin{table}[htbp]
+\centering
+\scriptsize
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{p{1.8cm} p{2.2cm} X X p{2.4cm}}
+\toprule
+\rowcolor{tableheader}
+\textbf{Sprint \& Dates} & \textbf{Milestone} & \textbf{Lead: Alok Sali} & \textbf{Lead: Apoorv Pillai} & \textbf{Joint Deliverables} \\
+\midrule
+\textbf{Sprint 1}\newline(Oct 12 -- Oct 26) & Proposal Approval \& Baseline & Audio dataset setup (FMA, GTZAN); baseline Librosa feature extraction pipeline & Lyric dataset curation (Genius); Whisper baseline transcription pipeline & Formal Proposal Document, Architecture Diagram, Form \\
+\midrule
+\textbf{Sprint 2}\newline(Oct 26 -- Nov 09) & Progress Report 1:\newline DSP \& NLP & 20-band MFCC, HPSS, spectral flux/rolloff extractor; UMAP 2D/3D manifold projections & RoBERTa valence-arousal sentiment model; BERTopic lyrical topic clustering & Progress Report 1 \& Individual Milestone Posts \\
+\midrule
+\textbf{Sprint 3}\newline(Nov 09 -- Nov 23) & Progress Report 2:\newline Models \& Agents & Genre/Mood classifiers (XGBoost \& 2D Mel-CNN); acoustic metric validation heuristics & LangGraph state graph setup; Signal Analyst Agent \& Lyric Semantic Agent & Progress Report 2 \& Individual Milestone Posts \\
+\midrule
+\textbf{Sprint 4}\newline(Nov 23 -- Dec 07) & Progress Report 3:\newline LLM Tuning \& APIs & FastAPI ingestion service, async Celery audio worker queue, WebSocket telemetry & Music Critic LLM fine-tuning (QLoRA on Qwen2.5/Llama-3); guardrails & Progress Report 3 \& Individual Milestone Posts \\
+\midrule
+\textbf{Sprint 5}\newline(Dec 07 -- Dec 21) & Progress Report 4:\newline Fullstack Studio UI & 3D UMAP interactive visualization, audio waveform player (Wavesurfer.js) & Multi-agent critique chat interface, radar charts, fullstack integration & Progress Report 4 \& Individual Milestone Posts \\
+\midrule
+\textbf{Sprint 6}\newline(Dec 21 -- Jan 04) & Final Capstone Submission & Quantitative benchmarking (F1, Silhouette, RAGAS critique fidelity); refactoring & Capstone Academic Report drafting (Methodology, Literature, Discussion) & Comprehensive Academic Report, clean GitHub repository \\
+\midrule
+\textbf{Sprint 7}\newline(Jan 04 -- Jan 18) & Final Presentation \& Pitch & Presentation slide deck design; live demo recording & 15--20 min presentation video recording; 2-minute elevator pitch video & Final Slide Deck, Full Presentation Video, Pitch Video \\
+\bottomrule
+\end{tabularx}
+\caption{Bi-Weekly Sprint Timeline and Parallel Technical Responsibilities.}
+\label{tab:sprints}
+\end{table}
+
+% ==============================================================================
+% 7. QUANTITATIVE EVALUATION METRICS
+% ==============================================================================
+\section{Quantitative Evaluation Metrics}
+
+\begin{itemize}
+    \item \textbf{Acoustic Classification:} Multi-class Genre and Mood classification accuracy, Macro F1-score, and ROC-AUC on GTZAN and Free Music Archive (FMA).
+    \item \textbf{Manifold Clustering:} UMAP / t-SNE cluster quality evaluated via Silhouette Coefficient ($> 0.6$) and Davies-Bouldin Index.
+    \item \textbf{Speech-to-Text Transcription:} Word Error Rate (WER) using Whisper across standard benchmark tracks.
+    \item \textbf{Agent Faithfulness:} Faithfulness and recommendation relevance scored via RAGAS / LLM-as-a-judge against human sound engineer annotations.
+    \item \textbf{Hallucination Rate:} Programmatic verification that $0\%$ of output statements contradict physical DSP measurements.
+    \item \textbf{System Latency:} End-to-end extraction and critique latency under 12 seconds for a 3-minute audio stem.
+\end{itemize}
+
+% ==============================================================================
+% 8. RISK ASSESSMENT & MITIGATION
+% ==============================================================================
+\section{Risk Assessment \& Mitigation Strategies}
+
+\begin{table}[htbp]
+\centering
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{p{3.5cm} p{1.6cm} p{1.4cm} X}
+\toprule
+\rowcolor{tableheader}
+\textbf{Risk Factor} & \textbf{Probability} & \textbf{Impact} & \textbf{Mitigation Strategy} \\
+\midrule
+GPU Compute Bottlenecks for LLM Tuning & Medium & High & Utilize 4-bit QLoRA via Unsloth/BitsAndBytes to reduce VRAM requirements under 12GB (Google Colab T4/A100 or Kaggle GPU). \\
+Whisper Transcription Latency on Long Audio & Medium & Medium & Implement chunked parallel audio processing and use \texttt{faster-whisper} (CTranslate2) for 4x inference speedup. \\
+LLM Hallucinations in Music Feedback & Medium & High & Implement a dedicated Verification Guard Agent that programmatically cross-checks LLM text claims against measured DSP metric ranges. \\
+Multimodal Alignment Dissonance & Low & Medium & Define explicit mathematical correlation heuristics between acoustic arousal (tempo/energy) and lyrical valence. \\
+\bottomrule
+\end{tabularx}
+\caption{Project Risk Matrix and Proactive Mitigation Protocols.}
+\label{tab:risks}
+\end{table}
+
+% ==============================================================================
+% 9. COMPUTE RESOURCES, ETHICS & LICENSING
+% ==============================================================================
+\section{Compute Resources, Ethics \& Data Licensing}
+
+\begin{itemize}
+    \item \textbf{Compute Environment:} Python 3.10+, PyTorch with CUDA acceleration, FastAPI backend, Vite/React frontend. Local development supplemented by cloud GPU instances (Google Colab Pro / Kaggle).
+    \item \textbf{Benchmark Licensing:} Free Music Archive (FMA) under Creative Commons (CC-BY, CC-BY-NC) and GTZAN for academic educational use.
+    \item \textbf{Ethics \& Data Privacy:} Audio tracks and lyrics are processed strictly for educational evaluation and algorithmic critique under fair use standards. User audio uploads are processed ephemerally in session memory without unauthorized redistribution or retention.
+\end{itemize}
+
+\end{document}
+```
