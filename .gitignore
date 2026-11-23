@@ -68,3 +68,9 @@ Thumbs.db
 !data/samples/*.wav
 *.m4a
 DSc - Capstone Lecture 1.pdf
+
+# Exclude redundant local .docx backup copies (keep primary PROJECT_PROPOSAL.docx, PROGRESS_REPORT_1.docx, PROGRESS_REPORT_2.docx)
+PROGRESS_REPORT_1_FINAL.docx
+SoundScope_AI_Progress_Report_1.docx
+SoundScope_AI_Progress_Report_2.docx
+SoundScope_AI_Project_Proposal.docx
